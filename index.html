@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Crop and Soil Predictor</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  </head>  
+  <body>
+    <div class="container">
+      <h1>Crop and Soil Prediction</h1>
+      <form method="POST" enctype="multipart/form-data">
+        <input type="file" name="image" required>
+        <button type="submit">Analyze</button>
+      </form>
+  
+      {% if crop %}
+        <h2>Detected Crop: {{ crop }}</h2>
+        <img src="{{ image }}" width="300"><br><br>
+  
+        <p><strong>Recommended Soil Type:</strong> {{ soil }}</p>
+  
+        {% if predicted_soil and predicted_soil != "Unknown" %}
+          <p><strong>Predicted Soil Type (CNN):</strong> {{ predicted_soil }}</p>
+          {% if soil_image %}
+            <img src="{{ soil_image }}" width="300"><br>
+          {% endif %}
+        {% else %}
+          <p><strong>Predicted Soil Type (CNN):</strong> Not available</p>
+        {% endif %}
+  
+        <p><strong>Avg Rainfall:</strong> {{ avg_rain }}</p>
+        <p><strong>Avg Temperature:</strong> {{ avg_temp }}</p>
+        <p><strong>Grown In:</strong> {{ states }}</p>
+  
+      {% elif error %}
+        <p class="error">{{ error }}</p>
+      {% endif %}
+    </div>
+  </body>  
+</html>
+
+
+
